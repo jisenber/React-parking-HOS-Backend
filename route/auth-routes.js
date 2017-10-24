@@ -2,7 +2,6 @@ const Router = require('express').Router;
 const User = require('../model/user');
 const passport = require('passport');
 const createError = require('http-errors');
-const nunjucks = require('nunjucks');
 
 let router = module.exports = new Router();
 
@@ -21,8 +20,7 @@ router.post('/signup', function(req, res, next) {
         return;
       }
       passport.authenticate('local')(req, res, function () {
-        let regUserPage = nunjucks.render('auth.njk', {user: user.username});
-        res.send(regUserPage);
+        res.json(user);
       });
     });
   } else {
@@ -38,10 +36,7 @@ router.get('/logout', function(req, res){
 
 //passport will give a 401 unauthorized error by default is login is not successful
 router.post('/login', passport.authenticate('local'), function(req, res) {
-  let loggedinUserPage = nunjucks.render('auth.njk', {user: req.user.username});
-  console.log(req.session.id);
-  //console.log(req.session.passport);
-  res.send(loggedinUserPage);
+  res.json(req.user);
 });
 
 
