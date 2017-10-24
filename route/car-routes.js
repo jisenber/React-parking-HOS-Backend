@@ -3,7 +3,6 @@
 // app modules
 let Router = require('express').Router;
 let Car = require('../model/cars.js');
-let nunjucks = require('nunjucks');
 
 let router = module.exports = new Router();
 
@@ -12,22 +11,20 @@ router.get('/cars', (req, res) => {
 
   let carMakeArray = [];
   Car.find({})
-  .then(cars => {
-    cars.forEach(function(car) {
-      carMakeArray.push(car.make);
+    .then(cars => {
+      cars.forEach(function(car) {
+        carMakeArray.push(car.make);
+      });
+    })
+    .then(() => {
+      res.json(carMakeArray);
+    })
+    .catch(err => {
+      console.log(err);
+      return false;
     });
-  })
-  .then(() => {
-    let renderedCarMakes = nunjucks.render('carmakes.njk', {makes: carMakeArray});
-    res.send(renderedCarMakes);
-  })
-  .catch(err => {
-    console.log(err);
-    return false;
-  });
 });
 
-//(nunjucks.render('views/carmakes.njk', {makes: carNames}))
 
 
 
@@ -35,9 +32,8 @@ router.get('/cars', (req, res) => {
 //start the server, load your DB, then in a separate tab: curl http://localhost:3000/cars/Toyota
 router.get('/cars/:make', (req, res, next) => {
   Car.findOne({make: req.params.make})
-  .then((car) => {
-    let renderedCarModels = nunjucks.render('carmodels.njk', {models: car.models});
-    res.send(renderedCarModels);
-  })
-  .catch(next);
+    .then((car) => {
+      res.json(car);
+    })
+    .catch(next);
 });

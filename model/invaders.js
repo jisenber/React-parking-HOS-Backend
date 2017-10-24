@@ -1,5 +1,3 @@
-'use strict';
-
 var mongoose = require('mongoose');
 
 var invaderSchema = mongoose.Schema({
