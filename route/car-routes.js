@@ -13,11 +13,11 @@ router.get('/cars', (req, res) => {
   Car.find({})
     .then(cars => {
       cars.forEach(function(car) {
-        carMakeArray.push(car.make);
+        carMakeArray.push(car);
       });
     })
     .then(() => {
-      res.json(carMakeArray);
+      res.send(carMakeArray);
     })
     .catch(err => {
       console.log(err);
