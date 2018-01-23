@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
-const path = require('path');
+//const path = require('path');
 const passport = require('passport');
 const bodyParser = require('body-parser');
 const invaderRoutes = require('./route/invader-routes.js');
@@ -13,7 +13,7 @@ const errorMiddleWare = require('./lib/error.js');
 const User = require('./model/user');
 const cors = require('cors');
 //const nunjucks = require('nunjucks');
-const LocalStrategy = require('passport-local').Strategy;
+//const LocalStrategy = require('passport-local').Strategy;
 //const flash = require('connect-flash');
 //const expressSession = require('express-session');
 //const MongoStore = require('connect-mongo')(expressSession);
@@ -29,9 +29,9 @@ mongoose.connect(MONGODB_URI);
 mongoose.Promise = Promise;
 
 // passport config
-passport.use(new LocalStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+// passport.use(new LocalStrategy(User.authenticate()));
+// passport.serializeUser(User.serializeUser());
+// passport.deserializeUser(User.deserializeUser());
 
 //mouting routes and middlware
 app.use(bodyParser.json());
