@@ -13,10 +13,10 @@ const errorMiddleWare = require('./lib/error.js');
 const User = require('./model/user');
 const cors = require('cors');
 //const nunjucks = require('nunjucks');
-//const LocalStrategy = require('passport-local').Strategy;
+const LocalStrategy = require('passport-local').Strategy;
 //const flash = require('connect-flash');
-//const expressSession = require('express-session');
-//const MongoStore = require('connect-mongo')(expressSession);
+const expressSession = require('express-session');
+const MongoStore = require('connect-mongo')(expressSession);
 
 
 let app = express();
@@ -28,21 +28,21 @@ let MONGODB_URI =  process.env.MONGODB_URI || 'mongodb://localhost/invaders';
 mongoose.connect(MONGODB_URI);
 mongoose.Promise = Promise;
 
-// passport config
-// passport.use(new LocalStrategy(User.authenticate()));
-// passport.serializeUser(User.serializeUser());
-// passport.deserializeUser(User.deserializeUser());
+//passport config
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 //mouting routes and middlware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// app.use(expressSession({
-//   secret: process.env.EXPRESS_SES_SECRET || 'keyboard cat',
-//   resave: false,
-//   saveUninitialized: false,
-//   store: new MongoStore({ mongooseConnection: mongoose.connection })
-// }));
+app.use(expressSession({
+  secret: process.env.EXPRESS_SES_SECRET || 'keyboard cat',
+  resave: false,
+  saveUninitialized: false,
+  store: new MongoStore({ mongooseConnection: mongoose.connection })
+}));
 
 app.use(passport.initialize());
 app.use(passport.session());
