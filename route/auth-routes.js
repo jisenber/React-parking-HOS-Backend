@@ -11,6 +11,16 @@ function validateEmail(email) {
   return re.test(email);
 }
 
+router.get('/authenticate', function(req, res, next) {
+  if (req.isAuthenticated) {
+    console.log('user is authenticated!', req);
+    res.send(req);
+  } else {
+    res.send('nope nope nope');
+    console.log('nope not authenticated');
+  }
+});
+
 //signup route for new user
 router.post('/signup', function(req, res, next) {
   if(validateEmail(req.body.username)) { //if the email is valid, execute the code below
