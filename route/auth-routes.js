@@ -11,10 +11,10 @@ function validateEmail(email) {
   return re.test(email);
 }
 
-router.get('/authenticate', function(req, res, next) {
-  if (req.isAuthenticated) {
+router.get('/authenticate', function(req, res) {
+  if (req.isAuthenticated()) {
     console.log('user is authenticated!', req);
-    res.send(req);
+    res.send(req.user);
   } else {
     res.send('nope nope nope');
     console.log('nope not authenticated');
