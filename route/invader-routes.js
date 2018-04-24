@@ -55,12 +55,17 @@ router.get('/states', (req, res) => {
 });
 
 //allows for shaming count on each invader to persist
-router.post('/shame/:id', (req, res) => {
-  Invader.findOne({_id: req.params.id})
+//allows for shaming count on each invader to persist
+router.post('/shame', (req, res) => {
+  Invader.findOne({_id: req.query.invader})
     .then(invader => {
       invader.shame += 1;
-      invader.save();
-      res.json(invader.shame);
+      invader.save(function(err) {
+        if (err) {
+          console.log('error saving: ', err);
+        }
+        res.json(invader);
+      });
     })
     .catch((err) => {
       console.error(err);
