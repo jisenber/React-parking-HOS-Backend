@@ -53,7 +53,6 @@ router.get('/states', (req, res) => {
 
 //allows for shaming count on each invader to persist
 router.post('/shame', (req, res) => {
-  console.log('hit shame, here is the id: ', req.query.invader);
   Invader.findOne({_id: req.query.invader})
     .then(invader => {
       invader.shame += 1;
