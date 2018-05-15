@@ -46,6 +46,16 @@ router.get('/logout', function(req, res){
   res.redirect('/');
 });
 
+router.get('/profile', function(req, res) {
+  User.findOne({username: req.query.username})
+    .then((user) => {
+      res.json(user);
+    })
+    .catch(err => {
+      res.json(err);
+    });
+});
+
 //passport will give a 401 unauthorized error by default is login is not successful
 router.post('/login', passport.authenticate('local'), function(req, res) {
   res.json(req.user);
