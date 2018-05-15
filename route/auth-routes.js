@@ -23,8 +23,8 @@ router.get('/authenticate', function(req, res, next) {
 
 //signup route for new user
 router.post('/signup', function(req, res, next) {
-  if(validateEmail(req.body.username)) { //if the email is valid, execute the code below
-    User.register(new User({username : req.body.username}), req.body.password, function(err, user) {
+  if(validateEmail(req.body.email)) { //if the email is valid, execute the code below
+    User.register(new User({username : req.body.username}, {email : req.body.email}), req.body.password, function(err, user) {
       if (err) {
         res.send(err);
         return;

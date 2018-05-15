@@ -4,7 +4,8 @@ const passportLocalMongoose = require('passport-local-mongoose');
 
 let userSchema = mongoose.Schema({
   username: {type: String, unique: true, required: true},
-  password: {type: String },
+  password: {type: String, required: true},
+  email: {type: String, require: true},
   posts: [{type: mongoose.Schema.Types.ObjectId, ref: 'invaders'}]
 });
 
