@@ -24,12 +24,14 @@ router.get('/authenticate', function(req, res, next) {
 //signup route for new user
 router.post('/signup', function(req, res, next) {
   if(validateEmail(req.body.email)) { //if the email is valid, execute the code below
-    User.register(new User({username : req.body.username}, {email : req.body.email}), req.body.password, function(err, user) {
+    User.register(new User({username : req.body.username, email: req.body.email}), req.body.password, function(err, user) {
+      console.log('here is the user', user);
       if (err) {
         res.send(err);
         return;
       }
       passport.authenticate('local')(req, res, function () {
+        console.log('here is the user', user);
         res.json(user);
       });
     });
