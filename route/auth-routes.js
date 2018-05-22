@@ -38,6 +38,16 @@ router.post('/signup', function(req, res, next) {
   }
 });
 
+router.get('/profile', function(req, res) {
+  User.findOne({username: req.query.username})
+    .then((user) => {
+      res.json(user);
+    })
+    .catch(err => {
+      res.json(err);
+    });
+});
+
 router.get('/logout', function(req, res){
   req.logout();
   req.session.destroy();

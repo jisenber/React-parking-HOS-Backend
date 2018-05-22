@@ -7,7 +7,8 @@ var invaderSchema = mongoose.Schema({
   lic_state: {type: String},
   make: {type: String, ref: 'cars'},
   model: {type: String, ref: 'cars'},
-  shame: {type: Number, default: 0}
+  shame: {type: Number, default: 0},
+  posted_by: {type: String, ref: 'users'}
 });
 
 
