@@ -6,27 +6,40 @@ let Driver = require('../model/drivers.js');
 let State = require('../model/states.js');
 let createError = require('http-errors');
 let jsonParser = require('body-parser').json();
+let User = require('../model/user.js');
 
 // module constants
 let router = module.exports = new Router();
 
 //submits an invader to mongoDB
-router.post('/submit', jsonParser, (req, res, next) => {
+router.post('/submit', jsonParser, (req, res) => {
   new Invader(req.body).save()
     .then(invader => {
       let pltAndState = invader.lic_plate.concat(invader.lic_state);
       let query = {plateAndState: pltAndState};
       Driver.findOneAndUpdate(query,
         { '$push': { 'parkingInstances': invader._id } },
-        {upsert:true}, function(err, doc) {
+        {upsert:true}, function(err) {
           if (err) return res.send(500, { error: err });
-          res.json(doc);
         });
+    })
+    .then(() => {
+      addInvaderPostingCredit(req.body.posted_by, req.body.img_url, res);
     })
     .catch(err => {
       console.log(err);
-    }); 
+    });
 });
+
+function addInvaderPostingCredit(userEmail, imgUrl, res) {
+  let query = {email : userEmail};
+  User.findOneAndUpdate(query,
+    { '$push': { 'posts': imgUrl } },
+    {upsert:true}, function(err, successMsg) {
+      if (err) return res.send(500, { error: err });
+      res.json(successMsg);
+    });
+}
 
 //renders all the invaders in the database
 router.get('/invaders', (req, res) => {
