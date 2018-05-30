@@ -6,7 +6,7 @@ let userSchema = mongoose.Schema({
   username: {type: String, unique: true, required: true},
   password: {type: String },
   email: {type: String, unique: true, required: true},
-  posts: [{type: mongoose.Schema.Types.ObjectId, ref: 'invaders'}]
+  posts: [{type: String}]
 });
 
 //gives authentication props to User object
