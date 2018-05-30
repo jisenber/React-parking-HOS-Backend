@@ -13,7 +13,6 @@ let router = module.exports = new Router();
 
 //submits an invader to mongoDB
 router.post('/submit', jsonParser, (req, res) => {
-  console.log('here is the req body', req.body);
   new Invader(req.body).save()
     .then(invader => {
       let pltAndState = invader.lic_plate.concat(invader.lic_state);
@@ -33,7 +32,7 @@ router.post('/submit', jsonParser, (req, res) => {
 });
 
 function addInvaderPostingCredit(userEmail, imgUrl, res) {
-  let query = {email : userEmail};
+  let query = {username : userEmail};
   console.log('here is the userEmail: ', userEmail);
   User.findOneAndUpdate(query,
     { '$push': { 'posts': imgUrl } },
