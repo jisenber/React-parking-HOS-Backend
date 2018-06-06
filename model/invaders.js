@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 var invaderSchema = mongoose.Schema({
-  date: {type: Date, default: Date.now},
+  date: {type: Date, default: new Date().toTimeString()},
   img_url: {type: String},
   lic_plate: {type: String},
   lic_state: {type: String},
