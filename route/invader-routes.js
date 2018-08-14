@@ -44,9 +44,11 @@ function addInvaderPostingCredit(userEmail, imgUrl, res) {
 
 //renders all the invaders in the database
 router.get('/invaders', (req, res) => {
+  const pageNumber = req.query.page;
   Invader.find({})
     .then(invaders => {
-      res.json(invaders);
+      const slicedInvaders = invaders.slice((pageNumber * 15), (pageNumber * 15 + 15));
+      res.json(slicedInvaders);
     })
     .catch(err => {
       console.log(err);
